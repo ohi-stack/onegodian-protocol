@@ -1,0 +1,34 @@
+openapi: 3.1.0
+info:
+  title: OneGodian Protocol API
+  version: 0.1.0
+  description: Foundational API specification for the OneGodian Protocol.
+
+servers:
+  - url: https://api.onegodian.org
+
+paths:
+  /api/health:
+    get:
+      summary: Health check endpoint
+      responses:
+        '200':
+          description: Service available
+
+  /api/alignment/evaluate:
+    post:
+      summary: Evaluate alignment responses
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: Alignment evaluation result
+
+  /api/mapper/run:
+    post:
+      summary: Run belief mapper workflow
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: Mapper output generated
