@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OneGodian Protocol Schema",
+  "type": "object",
+  "properties": {
+    "protocolVersion": {
+      "type": "string"
+    },
+    "identityLayer": {
+      "type": "object"
+    },
+    "semanticLayer": {
+      "type": "object"
+    },
+    "alignmentLayer": {
+      "type": "object"
+    },
+    "governanceLayer": {
+      "type": "object"
+    },
+    "verificationLayer": {
+      "type": "object"
+    },
+    "timestampUtc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "protocolVersion",
+    "timestampUtc"
+  ]
+}
