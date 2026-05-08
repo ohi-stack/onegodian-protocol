@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Belief Mapper Result Schema",
+  "type": "object",
+  "properties": {
+    "resultId": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "alignmentScore": {
+      "type": "number"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "generatedAtUtc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "resultId",
+    "alignmentScore",
+    "classification",
+    "generatedAtUtc"
+  ]
+}
