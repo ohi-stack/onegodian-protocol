@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OneGodian Alignment Schema",
+  "type": "object",
+  "properties": {
+    "alignmentId": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "alignmentScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "exploring",
+        "aligned",
+        "activated",
+        "guide"
+      ]
+    },
+    "timestampUtc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "alignmentId",
+    "alignmentScore",
+    "classification",
+    "timestampUtc"
+  ]
+}
