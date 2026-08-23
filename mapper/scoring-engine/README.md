@@ -1,21 +1,38 @@
 # OneGodian Belief Mapper — Scoring Engine
 
-Version: v0.2-prototype
+Version: v0.3-api
 Updated: August 23, 2026
 
 ## Purpose
 
 The scoring engine evaluates structured Belief Mapper responses and returns a limited educational alignment indicator. It is not an identity-assignment engine, membership engine, religious classifier, or legal-status determination.
 
+## Canonical Runtime
+
+The canonical runtime implementation is now served by `ohi-stack/onegodian-api`:
+
+- `GET /api/v1/belief-mapper/questions`
+- `POST /api/v1/belief-mapper/evaluate`
+
+The public UI in `ohi-stack/onegodian-app` must consume this API rather than maintain independent scoring logic.
+
 ## Lite Input Contract
 
-The Gen Alpha / Gen Beta Lite flow currently uses five responses, each encoded as:
+The Gen Alpha / Gen Beta Lite flow uses five named responses:
 
-- `2` — Yes
-- `1` — Not sure
-- `0` — No
+- `source`
+- `truth`
+- `purpose`
+- `connection`
+- `identity`
 
-Maximum score: `10`.
+Allowed answers:
+
+- `yes` = 2
+- `not_sure` = 1
+- `no` = 0
+
+Exactly five unique question IDs are required. Maximum score: `10`.
 
 ## Lite Classification
 
@@ -31,19 +48,20 @@ The engine MUST NOT return `OneGodian` as an automatically assigned identity. A 
 
 ```json
 {
-  "version": "belief-mapper-lite-v0.2",
+  "version": "belief-mapper-lite-v0.3",
   "score": 7,
-  "max_score": 10,
-  "classification": "aligned",
-  "identity_assigned": false,
-  "membership_created": false
+  "maxScore": 10,
+  "classification": "Aligned",
+  "summary": "...",
+  "identityNotice": "This result describes answer alignment only...",
+  "dataPolicy": "No name, email address, membership status, or account identifier is required..."
 }
 ```
 
 ## Guardrails
 
-- Validate that the Lite request contains exactly five integer responses.
-- Reject values outside `0`, `1`, or `2`.
+- Validate exactly five answers and five unique canonical question IDs.
+- Reject unsupported answer values.
 - Do not infer age, religion, ethnicity, political views, health status, or other sensitive attributes.
 - Do not persist raw belief responses by default.
 - Do not use Mapper responses for advertising, lead scoring, or behavioral targeting.
@@ -52,20 +70,20 @@ The engine MUST NOT return `OneGodian` as an automatically assigned identity. A 
 
 ## Full Mapper
 
-The full Algorithm specification contains seven mapping dimensions: ontology, unity, relationship, tradition, identity, community, and purpose. Future versions may support dimension-specific weighting, but any expansion must remain transparent, documented, consent-based, and independently testable.
+The full Algorithm specification contains seven mapping dimensions: ontology, unity, relationship, tradition, identity, community, and purpose. The five-question Lite experience is a youth-oriented discovery surface and does not supersede that canonical specification.
 
 ## Testing Minimum
 
-Production tests must include:
+The API test suite must verify:
 
-- all-zero input returns Explorer
-- all-two input returns Strong Alignment
-- boundary values 4/5 and 7/8 classify correctly
-- invalid length is rejected
-- negative and >2 values are rejected
-- floats/strings/nulls are rejected
-- response never sets `identity_assigned` or `membership_created` to true
+- five canonical questions are exposed
+- all `yes` answers return score 10 and Strong Alignment
+- classification boundaries remain deterministic
+- duplicate question IDs are rejected
+- incomplete sets are rejected
+- unsupported answer values are rejected by schema validation
+- result language never assigns identity or membership
 
 ## Version Rule
 
-If scoring, validation, safeguards, tests, and documentation are not operational and repeatable, that version is not production-ready.
+If scoring, validation, safeguards, tests, API exposure, documentation, and repeatable deployment are not operational, that version is not production-ready.
