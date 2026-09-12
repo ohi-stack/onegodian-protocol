@@ -1,0 +1,54 @@
+name: OneGodian Protocol Spec CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-spec:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Required governance documents
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f docs/authority-model.md
+          test -f docs/mcp-interoperability-authority.md
+          grep -q "no self-authorization" docs/authority-model.md
+          grep -q "Source of Record" docs/mcp-interoperability-authority.md
+          grep -q "Production Evidence Rule" docs/mcp-interoperability-authority.md
+
+      - name: Validate JSON specifications
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          function walk(dir) {
+            if (!fs.existsSync(dir)) return [];
+            return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+              const full = path.join(dir, entry.name);
+              return entry.isDirectory() ? walk(full) : [full];
+            });
+          }
+
+          const files = walk('schemas').filter((file) => file.endsWith('.json'));
+          for (const file of files) {
+            JSON.parse(fs.readFileSync(file, 'utf8'));
+          }
+          console.log(`Validated ${files.length} JSON schema/spec files.`);
+          NODE
