@@ -15,6 +15,7 @@ This repository serves as the canonical documentation and specification layer fo
 - agent governance systems
 - intelligent-system interaction standards
 - semantic interoperability
+- OneGodian MCP interoperability and authority boundaries
 - structured AI-era identity frameworks
 
 ---
@@ -23,7 +24,7 @@ This repository serves as the canonical documentation and specification layer fo
 
 ### Protocol Layer
 
-Defines the interaction, governance, semantic, and identity standards used by systems implementing the OneGodian Protocol™.
+Defines the interaction, governance, semantic, identity, authority, and interoperability standards used by systems implementing the OneGodian Protocol™.
 
 ### Algorithm Layer
 
@@ -34,6 +35,20 @@ Defines the structured synthesis and alignment logic used for:
 - multi-model synthesis
 - output normalization
 - governed execution
+
+### OneGodian MCP / Connection Boundary
+
+The OneGodian MCP Standard™ and OMOS Connection & Adaptation Layer™ provide normalized interoperability. They do not create independent execution authority.
+
+The governing separation is:
+
+- **MCP / Connection Layer** — interoperability and adaptation;
+- **OMOS** — governance, permissions, verification, maturity, and Decision Record evidence;
+- **ACC / OCP / OEG** — authorized orchestration, policy, and execution according to the deployed authority model;
+- **Connected domain** — source of record for its own state and actions;
+- **Human authority** — final approval for consequential operations where policy requires it.
+
+A client or connector MUST NOT self-authorize a consequential operation merely by supplying an approval boolean. See `docs/mcp-interoperability-authority.md` and `docs/authority-model.md`.
 
 ### Belief Mapper™
 
@@ -53,6 +68,7 @@ The mapper evaluates structured responses and produces:
 /docs
 - specifications
 - governance documents
+- authority and interoperability boundaries
 - legal positioning
 - implementation guidance
 
@@ -78,11 +94,15 @@ The mapper evaluates structured responses and produces:
 ## Governance Principles
 
 - transparent documentation
-- deterministic governance
+- deterministic governance rules where applicable
 - voluntary participation
 - institutional clarity
 - explainable logic
 - structured interoperability
+- least privilege
+- no self-authorization
+- source-of-record preservation
+- evidence before maturity promotion
 
 ---
 
@@ -90,6 +110,8 @@ The mapper evaluates structured responses and produces:
 
 Version: v0.1-draft
 Status: Foundational scaffold established
+
+The OneGodian MCP / OMOS Connection runtime may have a different implementation maturity in its runtime repository. This specification repository does not inherit Production status merely because a runtime implementation passes repository tests.
 
 ---
 
