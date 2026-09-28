@@ -1,14 +1,22 @@
-name: Deploy Docs
+name: Protocol Contract Checks
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: protocol-contracts-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  deploy:
+  validate:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,8 +26,5 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Docs
-        run: echo "Documentation pipeline scaffold"
+      - name: Validate schemas and governance contracts
+        run: node scripts/validate-contracts.mjs
