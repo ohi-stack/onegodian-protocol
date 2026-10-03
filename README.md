@@ -75,6 +75,17 @@ The mapper evaluates structured responses and produces:
 
 ---
 
+
+## Canonical Platform Integration
+
+- Canonical protocol/developer property: **`https://OMOS.OneGodian.com`**
+- Shared platform core: **`https://api.OneGodian.org`**
+- Central interoperability surface: **OneGodian MCP Gateway™** at `api.OneGodian.org`
+
+OMOS/Protocol defines protocol, alignment, developer, and interoperability standards. It is not another general-purpose public application and does not replace the shared API core.
+
+The former standalone `app.onegodian.com` architecture is retired. Protocol implementations should integrate through versioned API, adapter, registry, and MCP contracts rather than depend on that App.
+
 ## Governance Principles
 
 - transparent documentation
